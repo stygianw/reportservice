@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import ua.stygianw.reporting.beans.User;
 import ua.stygianw.reporting.repositories.UsersRepository;
 
+
+
+/**
+ * @author StygianW
+ *Controller handling user operations
+ */
 @Controller
 @RequestMapping(value = "/user")
 @SessionAttributes({"user"})

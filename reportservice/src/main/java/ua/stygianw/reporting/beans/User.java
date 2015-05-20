@@ -15,6 +15,10 @@ import javax.persistence.Table;
 
 
 
+/**
+ * @author StygianW
+ * Bean representing users
+ */
 @Entity
 @Table(name = "users")
 public class User {
@@ -37,7 +41,6 @@ public class User {
 	private String surname;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="user")
-	//@JoinColumn(name = "user_id", insertable=true, nullable=false, updatable=false)
 	private List<Goal> goals;
 	
 	

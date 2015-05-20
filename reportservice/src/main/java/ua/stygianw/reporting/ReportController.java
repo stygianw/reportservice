@@ -58,6 +58,11 @@ import ua.stygianw.reporting.validators.BasicFilterValidator;
 @SessionAttributes({ "users", "report", "reports" })
 public class ReportController {
 
+	
+	/**
+	 *Setting up repositories, filters, file writing buffer, 
+	 * available report generation and file creation strategies as well as shared thread pool
+	 */
 	@Autowired
 	UsersRepository rep;
 	@Autowired
@@ -85,6 +90,9 @@ public class ReportController {
 		availableFileGenerators.put("pdf", PdfFileGenerator.class);
 	}
 
+	/**Setting custom date binding format
+	 * @param binder
+	 */
 	@InitBinder
 	public void setCustomDateBinder(WebDataBinder binder) {
 		DateFormat fmt = new SimpleDateFormat("dd-MM-yyyy");
@@ -95,7 +103,7 @@ public class ReportController {
 	}
 
 	@RequestMapping("filter")
-	public String test1(Model model) {
+	public String showFilter(Model model) {
 		List<User> users = rep.getAll();
 		model.addAttribute("reports", availableReports);
 		model.addAttribute("users", users);
@@ -103,6 +111,13 @@ public class ReportController {
 		return "filter";
 	}
 
+	
+	/**
+	 * 
+	 * This method processes income data from the client UI for report generation,
+	 * instantiates the report generation stratedy and starts asynchronously the report building progress watcher.
+	 * The filter criteria are packed into BasicFilter data type.
+	 */
 	@RequestMapping(value = "process", method = RequestMethod.POST)
 	public String getFilterResult(@ModelAttribute("filter") BasicFilter filter,
 			BindingResult result, Model model, HttpSession sess,
@@ -113,7 +128,8 @@ public class ReportController {
 		if (result.hasErrors()) {
 			return "filter";
 		}
-
+		
+		//Searching for the strategy selected by the user on the client side
 		AvailableReports key = availableReports
 				.keySet()
 				.stream()
@@ -121,6 +137,7 @@ public class ReportController {
 						request.getParameter("selectedReport"))).findFirst()
 				.get();
 
+		//Reflective instantiation of report generation strategy
 		Class<? extends Report> reportToShow = availableReports.get(key);
 		Report report = null;
 		try {
@@ -130,6 +147,7 @@ public class ReportController {
 			throw new ServletException(e);
 		}
 
+		//Creating the progress watcher and starting it asynchronously
 		ProgressWatcher watcher = new ProgressWatcher(report, sess);
 		Thread thr = new Thread(watcher);
 		threadPool.execute(thr);
@@ -146,14 +164,20 @@ public class ReportController {
 
 	}
 
+	/**
+	 *This method establishes the file generation strategy, retrieves the written file 
+	 *and passes it out to the client
+	 */
 	@RequestMapping("download/{type}")
 	public String generateReport(@PathVariable("type") String type,
 			HttpSession sess, HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		
+		//Defining absolute path of web container, setting the target folder
 		String appPath = request.getServletContext().getRealPath("");
 		String relativePath = "/WEB-INF/generated_files/";
 		
+		//Reflective instantiation of file generation strategy
 		Class<? extends FileGenerator> generatorClass = availableFileGenerators.get(type);
 		FileGenerator generator = null;
 		try {
@@ -163,6 +187,8 @@ public class ReportController {
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
+		
+		//Retrieving the generated file and opening streams, preparing HTTP response parameters
 		Path generatedFile = generator.generateReport();
 		InputStream in = Files.newInputStream(generatedFile,
 				StandardOpenOption.READ, StandardOpenOption.DELETE_ON_CLOSE);
@@ -175,6 +201,8 @@ public class ReportController {
 
 		byte[] recordedBytes = new byte[BUFFER];
 		int readResult;
+		
+		//Byte-wise passing of file to servlet output stream
 		while ((readResult = in.read(recordedBytes)) != -1) {
 			out.write(recordedBytes, 0, readResult);
 		}

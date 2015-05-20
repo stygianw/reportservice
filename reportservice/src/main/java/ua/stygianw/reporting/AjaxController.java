@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ua.stygianw.reporting.serivces.ProgressWatcher;
 
+
 @Controller
 @RequestMapping("/ajax")
 public class AjaxController {
@@ -18,6 +19,9 @@ public class AjaxController {
 	}
 	
 	
+	/**
+	 * Serving ajax calls
+	 */
 	@RequestMapping("progress")
 	@ResponseBody
 	public String getProgress(HttpSession sess) {

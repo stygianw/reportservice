@@ -18,6 +18,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 
+/**
+ * @author StygianW
+ * Bean representing user goals
+ */
 @Entity
 @Table(name = "goals")
 public class Goal {

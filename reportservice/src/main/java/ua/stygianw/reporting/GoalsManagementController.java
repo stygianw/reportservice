@@ -25,11 +25,19 @@ import ua.stygianw.reporting.repositories.GoalsRepository;
 import ua.stygianw.reporting.repositories.UsersRepository;
 import ua.stygianw.reporting.validators.GoalValidator;
 
+
+/**
+ * @author StygianW
+ *Controllers handling goals CRUD operations
+ */
 @Controller
 @RequestMapping("/goals")
 @SessionAttributes({ "user", "goal", "pageHeader" })
 public class GoalsManagementController {
 
+	/**
+	 * Setting up repositories, validators and root redirect link 
+	 */
 	private static final String START = "redirect:/";
 
 	@Autowired
@@ -41,6 +49,11 @@ public class GoalsManagementController {
 	@Autowired
 	GoalValidator validator;
 
+	
+	
+	/**Adding required fields and setting custom date format for model validation allowing dates to be null
+	 * @param binder
+	 */
 	@InitBinder
 	public void setCustomDateBinder(WebDataBinder binder) {
 		

@@ -7,6 +7,11 @@ import java.util.stream.Collectors;
 import ua.stygianw.reporting.beans.Goal;
 
 
+/**
+ * @author StygianW
+ * The basic filter performs a basic filtering of raw goals collection prior to report building.
+ * Filtration is done by user names, and dates of goal start and end dates 
+ */
 public class BasicFilter {
 	
 	private List<Integer> namesToFilter;

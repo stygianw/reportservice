@@ -7,6 +7,11 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @author StygianW
+ * Abstract generic repository represents the repo layer for CRUD operations.
+ * @param <T>
+ */
 @Transactional
 public abstract class GenericRepository<T> {
 	
