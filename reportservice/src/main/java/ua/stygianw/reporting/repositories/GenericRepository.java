@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +35,7 @@ public abstract class GenericRepository<T> {
 	
 	public abstract T findById(int id);
 	
-	public abstract List<T> findByQuery(String query);
+	public abstract List<T> findByNameAndValue(String name, String value);
 	
 	public abstract void delete(T entity);
 

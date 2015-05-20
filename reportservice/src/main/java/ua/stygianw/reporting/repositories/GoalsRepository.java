@@ -3,6 +3,7 @@ package ua.stygianw.reporting.repositories;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -38,10 +39,7 @@ public class GoalsRepository extends GenericRepository<Goal>{
 		return em.find(Goal.class, id);
 	}
 
-	@Override
-	public List<Goal> findByQuery(String query) {
-		return em.createQuery(query, Goal.class).getResultList();
-	}
+	
 
 	@Override
 	public void delete(Goal entity) {
@@ -57,6 +55,13 @@ public class GoalsRepository extends GenericRepository<Goal>{
 	public List<Goal> getAll() {
 		
 		return em.createQuery("SELECT goal FROM Goal goal", Goal.class).getResultList();
+	}
+
+	@Override
+	public List<Goal> findByNameAndValue(String name, String value) {
+		return em.createQuery(String.format("SELECT goal FROM Goal goal WHERE goal.%s = :value", name), Goal.class)
+				.setParameter("value", value)
+				.getResultList();
 	}
 	
 	

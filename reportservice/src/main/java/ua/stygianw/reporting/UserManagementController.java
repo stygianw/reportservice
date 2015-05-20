@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import ua.stygianw.reporting.beans.User;
 import ua.stygianw.reporting.repositories.UsersRepository;
+import ua.stygianw.reporting.validators.UsersValidator;
 
 
 
@@ -32,6 +33,9 @@ public class UserManagementController {
 	
 	@Autowired
 	UsersRepository rep;
+	
+	@Autowired
+	UsersValidator validator;
 	
 	public UserManagementController(UsersRepository rep) {
 		this.rep = rep;
@@ -54,6 +58,9 @@ public class UserManagementController {
 	
 	@RequestMapping(value = "register", method = RequestMethod.POST)
 	public String registerUser(@ModelAttribute(value = "user") User user, BindingResult result) {
+			if (user.getUserId() == 0) {
+				validator.validate(user, result);
+			}
 			
 			if(result.hasErrors()) {
 				return "addUser";
