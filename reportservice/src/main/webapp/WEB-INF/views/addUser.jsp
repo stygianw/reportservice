@@ -13,8 +13,8 @@
 <body>
 	<div class="container">
 		<h3>Please add user data:</h3>
-		
-		<form:form commandName="user" action="/m/user/register">
+		<c:url var="actionLink" value="/user/register" />
+		<form:form commandName="user" action="${ actionLink }">
 			<form:hidden path="userId" value="${ user.userId }" />
 			<div class="form-group">
 				<label>Login:</label>
