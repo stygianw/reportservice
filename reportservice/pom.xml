@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ua.stygianw</groupId>
 	<artifactId>reportservice</artifactId>
-	<name>test3</name>
+	<name>reportservice</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>

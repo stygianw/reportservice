@@ -30,5 +30,12 @@
 </div>
 </body>
 <c:url var="script" value="/resources/js/progress.js" />
+<c:url var="address" value="/" />
 <script src="${ script }"></script>
+<script>
+
+$(function() {
+	 beginQuery('${ address }');
+});
+</script>
 </html>

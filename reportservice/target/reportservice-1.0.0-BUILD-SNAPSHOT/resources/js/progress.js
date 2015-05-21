@@ -1,5 +1,6 @@
 
 	var interval;
+	var serverLink;
 	
 	var circle = new ProgressBar.Circle('#example-percent-container', {
 		color : '#FCB03C',
@@ -23,7 +24,7 @@
 	function getData() {
 			var interval = setInterval(function(){
 			$.ajax({
-				url : "http://localhost:8080/m/ajax/progress",
+				url : serverLink + "ajax/progress",
 				method : "GET",
 
 			}).done(function(response) {
@@ -37,7 +38,7 @@
 							
 					}, 2500);
 					setTimeout(function(){
-						window.location = "http://localhost:8080/m/report/show";	
+						window.location = serverLink + "report/show";	
 					}, 3500);
 					
 				}
@@ -47,6 +48,7 @@
 		
 	}
 	
-	$(function() {
+	function beginQuery(link) {
+		serverLink = link;
 		getData();
-	})
+	}
