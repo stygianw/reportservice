@@ -43,6 +43,8 @@ public class User {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="user")
 	private List<Goal> goals;
 	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="user")
+	private List<Role> roles;
 	
 	public User() {
 		

@@ -3,10 +3,10 @@ package ua.stygianw.reporting.repositories;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
+import ua.stygianw.reporting.beans.Role;
 import ua.stygianw.reporting.beans.User;
 
 
@@ -28,6 +28,10 @@ public class UsersRepository extends GenericRepository<User>{
 	public void save(User entity) {
 		//em.getTransaction().begin();
 		em.persist(entity);
+		Role role = new Role();
+		role.setRole("ROLE_USER");
+		role.setUser(entity);
+		em.persist(role);
 		//em.getTransaction().commit();
 		
 	}

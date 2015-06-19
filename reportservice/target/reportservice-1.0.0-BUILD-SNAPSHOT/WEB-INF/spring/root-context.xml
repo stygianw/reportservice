@@ -34,6 +34,11 @@
 		<property name="entityManagerFactory" ref="myFactory"></property>
 	</bean>
 	
+	<!-- <http auto-config='true'>
+    	<intercept-url pattern="/**" access="ROLE_USER" />
+  	</http> -->
+  
+	
 	<!-- <bean id="progressWatcher" class="ua.stygianw.reporting.serivces.ProgressWatcher" scope="prototype" /> -->
 	
 	
